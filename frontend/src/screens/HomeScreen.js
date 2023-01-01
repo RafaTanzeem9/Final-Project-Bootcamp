@@ -14,10 +14,9 @@ function HomeScreen() {
   // const socket = io.connect("http://localhost:9000/");
 
   const { products, loading, error } = useSelector(allProducts);
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  //   socket.emit("msg", { message: "hello" });
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
   return (
     <>
       <h1>Latest Products</h1>
