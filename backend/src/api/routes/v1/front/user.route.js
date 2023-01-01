@@ -1,14 +1,14 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
-import { protect, admin } from "../middleware/authMiddleware.js";
-import {
+const { protect, admin } = require("../../../middlewares/front/auth");
+const {
   authUser,
   getUserProfile,
   registerUser,
   refreshToken,
   userLogout,
   getUser,
-} from "../../../controllers/front/user.controller";
+} = require("../../../controllers/front/user.controller");
 router.post("/login", authUser);
 router.route("/profile").get(protect, getUserProfile);
 router.route("/refreshToken").get(refreshToken);
@@ -16,4 +16,4 @@ router.route("/logout").get(protect, userLogout);
 router.route("/").post(registerUser);
 router.route("/").get(protect, admin, getUser);
 
-export default router;
+module.exports = router;

@@ -1,9 +1,8 @@
-import asyncHandler from "express-async-handler";
-import User from "../../models/user.model";
-import generateToken from "../utils/generateTokens.js";
-import jwt from "jsonwebtoken";
+const User = require("../../models/user.model");
+const generateToken = require("../../utils/generateTokens");
+const jwt = require("jsonwebtoken");
 
-const authUser = asyncHandler(async (req, res) => {
+const authUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
@@ -20,8 +19,8 @@ const authUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("invalid auth");
   }
-});
-const registerUser = asyncHandler(async (req, res) => {
+};
+const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists && (await user.matchPassword(password))) {
@@ -40,9 +39,9 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("invalid user data");
   }
-});
+};
 
-const getUserProfile = asyncHandler(async (req, res) => {
+const getUserProfile = async (req, res) => {
   const user = await User.findById(req.user._id);
   console.log(user);
   if (user) {
@@ -56,9 +55,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("user not found");
   }
-});
+};
 
-const refreshToken = asyncHandler(async (req, res) => {
+const refreshToken = async (req, res) => {
   const refreshToken = req.headers.authorization.split(" ")[1];
   try {
     var decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
@@ -84,8 +83,8 @@ const refreshToken = asyncHandler(async (req, res) => {
     }
     res.json(err);
   }
-});
-const userLogout = asyncHandler(async (req, res) => {
+};
+const userLogout = async (req, res) => {
   const refreshToken = req.headers.authorization.split(" ")[1];
   const decoded = jwt.verify(refreshToken, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id).select("-password");
@@ -98,8 +97,8 @@ const userLogout = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("logout failed");
   }
-});
-const getUser = asyncHandler(async (req, res) => {
+};
+const getUser = async (req, res) => {
   const users = await User.find({});
   if (users) {
     res.json(users);
@@ -107,8 +106,8 @@ const getUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("user not found");
   }
-});
-export {
+};
+module.exports = {
   authUser,
   getUserProfile,
   registerUser,

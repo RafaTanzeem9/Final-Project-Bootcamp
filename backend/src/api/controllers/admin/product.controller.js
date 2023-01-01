@@ -5,6 +5,11 @@ const getProducts = async (req, res) => {
   res.json(products);
 };
 
+const createProduct = async (req, res) => {
+  const products = await Product.create(req.body);
+  res.json(products);
+};
+
 const getProductById = async (req, res) => {
   const product = await Product.findById(req.params.id);
 
@@ -15,4 +20,4 @@ const getProductById = async (req, res) => {
   }
 };
 
-module.exports = { getProducts, getProductById };
+module.exports = { createProduct, getProducts, getProductById };

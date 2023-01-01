@@ -1,10 +1,10 @@
 const express = require("express");
 const userRoutes = require("./user.route");
-const productRoutes = require("./productRoutes");
+const productRoutes = require("./product.route");
 const orderRoutes = require("./order.routes");
 
 const router = express.Router();
-const { cpUpload } = require("../../../utils/upload");
+// const { cpUpload } = require("../../../utils/upload");
 /**
  * GET v1/status
  */

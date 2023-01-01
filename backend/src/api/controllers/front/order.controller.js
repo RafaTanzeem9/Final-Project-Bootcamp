@@ -1,12 +1,11 @@
-import asyncHandler from "express-async-handler";
-import Order from "../../models/order.model";
-import Stripe from "stripe";
+const Order = require("../../models/order.model");
+const Stripe = require("stripe");
 
 const stripe = new Stripe(
   "sk_test_51LPQqCBzjsuGY5RngaWp89qLgYNkFnkUH9uezMhmZ3ehtAeXMJhj0D9w6S5LUQTzm0D97oIc20FnkqBwA9OxaIgf00UwRnfJxc"
 );
 
-const addOrderItems = asyncHandler(async (req, res) => {
+const addOrderItems = async (req, res) => {
   console.log(req.body);
   const {
     orderItems,
@@ -34,8 +33,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const createdOrder = await order.save();
     res.status(201).json(createdOrder);
   }
-});
-const getOrderById = asyncHandler(async (req, res) => {
+};
+
+const getOrderById = async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
@@ -45,8 +45,9 @@ const getOrderById = asyncHandler(async (req, res) => {
   } else {
     res.status(404);
   }
-});
-const payOrder = asyncHandler(async (req, res) => {
+};
+
+const payOrder = async (req, res) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
@@ -64,8 +65,8 @@ const payOrder = asyncHandler(async (req, res) => {
   } else {
     res.status(404);
   }
-});
-const updateOrderToPaid = asyncHandler(async (req, res) => {
+};
+const updateOrderToPaid = async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (order) {
     order.isPaid = true;
@@ -81,5 +82,5 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   } else {
     res.status(404);
   }
-});
-export { addOrderItems, getOrderById, updateOrderToPaid, payOrder };
+};
+module.exports = { addOrderItems, getOrderById, updateOrderToPaid, payOrder };

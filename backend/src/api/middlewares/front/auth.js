@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import User from "../../models/user.model";
-import AsyncHandler from "express-async-handler";
-const protect = AsyncHandler(async (req, res, next) => {
+const jwt = require("jsonwebtoken");
+const User = require("../../models/user.model");
+
+const protect = async (req, res, next) => {
   let token;
   if (req.headers.authorization) {
     try {
@@ -18,7 +18,7 @@ const protect = AsyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("not auth");
   }
-});
+};
 const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     next();
@@ -28,4 +28,4 @@ const admin = (req, res, next) => {
   }
 };
 
-export { protect, admin };
+module.exports = { protect, admin };

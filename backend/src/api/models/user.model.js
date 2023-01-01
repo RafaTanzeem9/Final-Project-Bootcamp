@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
-import generateToken from "../utils/generateTokens.js";
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const generateToken = require("../utils/generateTokens");
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
@@ -47,4 +47,4 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 const User = mongoose.model("User", userSchema);
-export default User;
+module.exports = User;

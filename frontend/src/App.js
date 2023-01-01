@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Header from "./components/Header";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -15,40 +15,39 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import ProtectedRoute from "./components/ProtectedRoute";
 import tokenExpired from "./Services/jwtRefresh";
-import { useEffect, useState } from "react";
 import { userLogout, userRefreshToken } from "./slices/userLoginSlice";
 function App() {
   let location = useLocation();
   let dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (userInfo) {
-        if (tokenExpired(userInfo.token)) {
-          console.log("This will run every second!");
-          dispatch(userRefreshToken());
-        } else {
-          return;
-        }
-      }
-    }, 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (userInfo) {
+  //       if (tokenExpired(userInfo.token)) {
+  //         console.log("This will run every second!");
+  //         dispatch(userRefreshToken());
+  //       } else {
+  //         return;
+  //       }
+  //     }
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, [userInfo, location]);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (userInfo) {
-        if (tokenExpired(userInfo.refreshToken)) {
-          console.log("This will run every second!");
-          dispatch(userLogout());
-        } else {
-          return;
-        }
-      }
-    }, 1000);
+  //   return () => clearInterval(interval);
+  // }, [userInfo, location]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (userInfo) {
+  //       if (tokenExpired(userInfo.refreshToken)) {
+  //         console.log("This will run every second!");
+  //         dispatch(userLogout());
+  //       } else {
+  //         return;
+  //       }
+  //     }
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, [userInfo, location]);
+  //   return () => clearInterval(interval);
+  // }, [userInfo, location]);
   // useEffect(() => {
   //   if (userInfo) {
   //     if (tokenExpired(userInfo.token)) {
